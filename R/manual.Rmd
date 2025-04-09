@@ -1,0 +1,74 @@
+---
+title: "How to Use EDArumour"
+author: "Soveatin Kuntur"
+date: "2025-04-04"
+output: html_document
+---
+
+# 📦 EDArumour Package
+
+The `EDArumour` package helps explore and analyze rumor-related text data.\
+It includes functions for counting words, analyzing text patterns, and visualizing the results.
+
+## 🔧 Functions Included
+
+-   `runEDA()` – Analyze message length, word count, and question marks
+-   `plot.eda_result()` – Draw boxplots comparing rumor vs non-rumor texts
+-   `countWords()` – Count how many words are in each message
+
+🔗 GitHub: <https://github.com/kunturs/arp-lab02>
+
+------------------------------------------------------------------------
+
+## 📥 Load Package and Dataset
+
+```{r setup}
+library(EDArumour)
+data(pheme)
+```
+
+```{r preview-clean, message=FALSE}
+library(DT)
+DT::datatable(
+  head(pheme, 5),
+  options = list(
+    dom = 't'  # Only show the table (no search box, no pagination, no dropdown)
+  ),
+  caption = "First 5 Rows of the PHEME Dataset"
+)
+```
+
+## Run Text Analysis
+
+```{r setup}
+eda <- runEDA(pheme)
+```
+
+##Show the result 
+
+```{r show-eda-dt}
+DT::datatable(
+  head(eda$data, 5),
+  options = list(dom = 't'),
+  caption = "First 5 Rows of EDA Results"
+)
+```
+
+## Run Plot
+
+```{r setup}
+plot(eda)
+
+```
+
+## 📊 Boxplots from EDA
+
+```{r eda-plot, fig.align='center', fig.width=7, fig.height=5}
+plot(eda)
+```
+
+## Count words
+```{r}
+texts <- c("How are you?", "This is R.", "Exploratory Data Analysis!")
+countWords(texts)
+```

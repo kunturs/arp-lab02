@@ -9,6 +9,8 @@
 #' @examples
 #' eda <- runEDA(data.frame(text = c("Fake?", "This is fine."), is_rumor = c(1, 0)))
 #' plot(eda)
+#'
+library(ggplot2)
 plot.eda_result <- function(x, ...) {
   stopifnot(inherits(x, "eda_result"))
   df <- x$data
