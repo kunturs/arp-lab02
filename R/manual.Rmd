@@ -2,7 +2,9 @@
 title: "How to Use EDArumour"
 author: "Soveatin Kuntur"
 date: "2025-04-04"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 # 📦 EDArumour Package
@@ -22,12 +24,15 @@ It includes functions for counting words, analyzing text patterns, and visualizi
 
 ## 📥 Load Package and Dataset
 
-```{r setup}
-library(EDArumour)
+```{r load-package}
+library(ggplot2)
+library(gridExtra)
+library(EDArumour)  
 data(pheme)
+eda <- runEDA(pheme)
 ```
 
-```{r preview-clean, message=FALSE}
+```{r preview-clean, eval = knitr::is_html_output()}
 library(DT)
 DT::datatable(
   head(pheme, 5),
@@ -40,8 +45,28 @@ DT::datatable(
 
 ## Run Text Analysis
 
-```{r setup}
+```{r text-analysis}
 eda <- runEDA(pheme)
+```
+```{r plot-method}
+plot.eda_result <- function(x, ...) {
+  stopifnot(inherits(x, "eda_result"))
+  df <- x$data
+
+  p1 <- ggplot2::ggplot(df, ggplot2::aes(x = label, y = text_length, fill = label)) +
+    ggplot2::geom_boxplot() +
+    ggplot2::theme_minimal() +
+    ggplot2::labs(title = "Text Length by Rumor Label", x = "", y = "Characters") +
+    ggplot2::theme(legend.position = "none")
+
+  p2 <- ggplot2::ggplot(df, ggplot2::aes(x = label, y = word_count, fill = label)) +
+    ggplot2::geom_boxplot() +
+    ggplot2::theme_minimal() +
+    ggplot2::labs(title = "Word Count by Rumor Label", x = "", y = "Words") +
+    ggplot2::theme(legend.position = "none")
+
+  gridExtra::grid.arrange(p1, p2, ncol = 2)
+}
 ```
 
 ##Show the result 
@@ -54,21 +79,25 @@ DT::datatable(
 )
 ```
 
-## Run Plot
+##Check class
 
-```{r setup}
-plot(eda)
+```{r check-class}
+class(eda)
 
-```
+````
+
 
 ## 📊 Boxplots from EDA
 
 ```{r eda-plot, fig.align='center', fig.width=7, fig.height=5}
+#install.packages("gridExtra")
+library(gridExtra)
 plot(eda)
 ```
 
 ## Count words
-```{r}
+```{r func}
 texts <- c("How are you?", "This is R.", "Exploratory Data Analysis!")
 countWords(texts)
 ```
+
