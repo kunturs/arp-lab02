@@ -48,6 +48,7 @@ DT::datatable(
 ```{r text-analysis}
 eda <- runEDA(pheme)
 ```
+
 ```{r plot-method}
 plot.eda_result <- function(x, ...) {
   stopifnot(inherits(x, "eda_result"))
@@ -79,12 +80,7 @@ DT::datatable(
 )
 ```
 
-##Check class
 
-```{r check-class}
-class(eda)
-
-````
 
 
 ## 📊 Boxplots from EDA
